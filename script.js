@@ -5,13 +5,44 @@ let totalQuestions = 0;
 let isEnglishToVietnamese = true;
 let isAnswerSelected = false;
 let words = [];
+const musicTracks = ["assets/lofi/lofi2.mp3", "assets/lofi/lofi3.mp3"];
+let currentTrack = new Audio(); // Tạo đối tượng âm thanh
+let clickSound = new Audio("./assets/sound/click.mp3"); // Tạo đối tượng âm thanh click
+let clapSound = new Audio("./assets/sound/clap.mp3"); // Tạo đối tượng âm thanh clap
+let correctSound = new Audio("./assets/sound/nice.mp3"); // Tạo đối tượng âm thanh correct
+let wrongSound = new Audio("./assets/sound/wrong.mp3"); // Tạo đối tượng âm thanh wrong
+
+const requiredScore = 2; // Biến cho điểm yêu cầu
+const requiredQuestions = 2; // Biến cho số câu hỏi yêu cầu
 
 // Function to start the game
 function startGame() {
   document.getElementById("startBtn").style.display = "none"; // Ẩn nút Bắt đầu
-  document.getElementById("goal-message").style.display = "none"; // hide info
+  document.getElementById("footer").style.display = "none";
+  document.getElementById("goal-message").style.display = "none"; // Ẩn thông tin
   document.getElementById("all").style.display = "block"; // Hiện các phần của trò chơi
   fetchWords(); // Tải từ từ API
+
+  playRandomMusic(); // Phát nhạc ngẫu nhiên khi bắt đầu trò chơi
+}
+
+// Hàm phát nhạc ngẫu nhiên
+function playRandomMusic() {
+  const randomIndex = Math.floor(Math.random() * musicTracks.length);
+  currentTrack.src = musicTracks[randomIndex]; // Chọn bài nhạc ngẫu nhiên
+  currentTrack.loop = true; // Lặp lại nhạc nền
+  currentTrack.play(); // Phát bài nhạc
+
+  // Khi bài nhạc kết thúc, phát bài nhạc tiếp theo (nếu game chưa kết thúc)
+  currentTrack.onended = function () {
+    if (!isGameEnded()) {
+      playRandomMusic(); // Phát bài nhạc ngẫu nhiên tiếp theo
+    }
+  };
+}
+
+function isGameEnded() {
+  return totalQuestions >= requiredQuestions || score >= requiredScore; // Thay đổi logic này tùy theo yêu cầu của bạn
 }
 
 // Function to fetch words from API
@@ -75,13 +106,27 @@ function generateAnswerButtons() {
 }
 
 // Function to handle answer selection
+// Function to handle answer selection
+// Function to handle answer selection
+// Function to handle answer selection
 function handleAnswer(selectedAnswer, userButton) {
   if (isAnswerSelected) return;
+
+  clickSound.play(); // Phát âm thanh click
+
   isAnswerSelected = true;
 
   const correctAnswer = isEnglishToVietnamese ? currentWord.vi : currentWord.en;
   const buttons = document.querySelectorAll(".answer-btn");
   userButton.classList.add("selected");
+
+  // Vô hiệu hóa tất cả các nút đáp án
+  buttons.forEach((button) => {
+    if (button !== userButton) {
+      button.disabled = true; // Vô hiệu hóa nút
+      button.classList.add("disabled"); // Thêm lớp disabled để làm sẫm màu
+    }
+  });
 
   setTimeout(() => {
     // Check answer correctness
@@ -90,13 +135,14 @@ function handleAnswer(selectedAnswer, userButton) {
       score++;
       totalQuestions++;
       updateScoreDisplay();
+      correctSound.play(); // Phát âm thanh đúng
 
-      setTimeout(
-        () => userButton.classList.remove("correct", "selected"),
-        2000
-      );
+      setTimeout(() => {
+        userButton.classList.remove("correct", "selected");
+      }, 2000);
     } else {
       userButton.classList.add("wrong");
+      wrongSound.play(); // Phát âm thanh sai
       buttons.forEach((button) => {
         if (button.textContent.includes(correctAnswer)) {
           button.classList.add("correct");
@@ -104,8 +150,22 @@ function handleAnswer(selectedAnswer, userButton) {
       });
     }
 
-    if (totalQuestions >= 2 || score >= 2) endGame();
-    else setTimeout(selectRandomWord, 3000);
+    // Khôi phục trạng thái của các nút sau 2 giây
+    setTimeout(() => {
+      buttons.forEach((button) => {
+        button.disabled = false; // Bật lại nút
+        button.classList.remove("disabled"); // Bỏ lớp disabled để phục hồi màu sắc
+        button.classList.remove("wrong"); // Bỏ lớp wrong nếu có
+        button.classList.remove("correct"); // Bỏ lớp correct nếu có
+        button.classList.remove("selected"); // Bỏ lớp selected nếu có
+      });
+    }, 2000);
+
+    if (totalQuestions >= requiredQuestions || score >= requiredScore) {
+      endGame();
+    } else {
+      setTimeout(selectRandomWord, 3000);
+    }
   }, 3000);
 }
 
@@ -123,9 +183,12 @@ function updateScoreDisplay() {
 
 // Function to end the game
 function endGame() {
+  currentTrack.pause(); // Dừng nhạc
+  currentTrack.currentTime = 0; // Đặt lại thời gian hiện tại về 0
+  clapSound.play(); // Phát âm thanh vỗ tay
   displayGameElements(false);
   document.getElementById("statusGif").src =
-    score >= 2 ? "./assets/end.gif" : "./assets/true.gif";
+    score >= requiredScore ? "./assets/end.gif" : "./assets/true.gif";
   document.getElementById("statusGifContainer").classList.add("show");
   document.getElementById("playAgainBtn").style.display = "block";
 }
@@ -155,4 +218,5 @@ function resetGame() {
 
   displayGameElements(true);
   selectRandomWord();
+  playRandomMusic(); // Gọi hàm phát nhạc
 }

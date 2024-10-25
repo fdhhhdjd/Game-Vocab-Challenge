@@ -311,15 +311,23 @@ h1 {
 
 .answer-btn.correct {
     background-color: #27ae60 !important; /* Màu xanh đúng */
+    color: white;
+
 }
 
 .answer-btn.wrong {
     background-color: #e74c3c !important; /* Màu đỏ sai */
+    color: white;
 }
 
 .answer-btn:hover {
     transform: scale(1.05);
 }
+
+.answer-btn:disabled {
+    background-color: #EBEBE4;
+    cursor: not-allowed;
+  }
 
   
 #wordDisplay {
@@ -426,3 +434,21 @@ h1 {
     font-size: 1em;
     line-height: 1.5;
 }
+
+footer {
+    margin-top: 20px; /* Khoảng cách trên footer */
+    font-size: 1rem; /* Kích thước chữ */
+    color: #e67e22; /* Màu chữ */
+    text-align: center; /* Căn giữa nội dung */
+    font-weight: bold;
+}
+
+footer a {
+    color: #3498db; /* Màu chữ liên kết */
+    text-decoration: none; /* Không gạch chân */
+}
+
+footer a:hover {
+    text-decoration: underline; /* Gạch chân khi hover */
+}
+
