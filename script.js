@@ -5,7 +5,13 @@ let totalQuestions = 0;
 let isEnglishToVietnamese = true;
 let isAnswerSelected = false;
 let words = [];
-const musicTracks = ["assets/lofi/lofi2.mp3", "assets/lofi/lofi3.mp3"];
+const musicTracks = [
+  "assets/lofi/lofi1.mp3",
+  "assets/lofi/lofi2.mp3",
+  "assets/lofi/lofi3.mp3",
+  "assets/lofi/lofi4.mp3",
+  "assets/lofi/lofi5.mp3",
+];
 let currentTrack = new Audio(); // Tạo đối tượng âm thanh
 let clickSound = new Audio("./assets/sound/click.mp3"); // Tạo đối tượng âm thanh click
 let clapSound = new Audio("./assets/sound/clap.mp3"); // Tạo đối tượng âm thanh clap
