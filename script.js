@@ -12,8 +12,8 @@ let clapSound = new Audio("./assets/sound/clap.mp3"); // Tạo đối tượng �
 let correctSound = new Audio("./assets/sound/nice.mp3"); // Tạo đối tượng âm thanh correct
 let wrongSound = new Audio("./assets/sound/wrong.mp3"); // Tạo đối tượng âm thanh wrong
 
-const requiredScore = 2; // Biến cho điểm yêu cầu
-const requiredQuestions = 2; // Biến cho số câu hỏi yêu cầu
+const requiredScore = 10; // Biến cho điểm yêu cầu
+const requiredQuestions = 20; // Biến cho số câu hỏi yêu cầu
 
 // Function to start the game
 function startGame() {
@@ -161,7 +161,15 @@ function handleAnswer(selectedAnswer, userButton) {
       });
     }, 2000);
 
-    if (totalQuestions >= requiredQuestions || score >= requiredScore) {
+    if (score >= requiredScore) {
+      document.getElementById("statusGif").src = "./assets/true.gif"; // Hiển thị true.gif
+      document.getElementById("statusGifContainer").classList.add("show");
+      setTimeout(() => {
+        document.getElementById("statusGifContainer").classList.remove("show"); // Ẩn hình ảnh sau một khoảng thời gian
+      }, 2000);
+    }
+
+    if (score >= requiredQuestions) {
       endGame();
     } else {
       setTimeout(selectRandomWord, 3000);
@@ -187,8 +195,7 @@ function endGame() {
   currentTrack.currentTime = 0; // Đặt lại thời gian hiện tại về 0
   clapSound.play(); // Phát âm thanh vỗ tay
   displayGameElements(false);
-  document.getElementById("statusGif").src =
-    score >= requiredScore ? "./assets/end.gif" : "./assets/true.gif";
+  document.getElementById("statusGif").src = "./assets/end.gif";
   document.getElementById("statusGifContainer").classList.add("show");
   document.getElementById("playAgainBtn").style.display = "block";
 }
