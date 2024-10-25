@@ -233,7 +233,7 @@ h1 {
     }
   
     .btn {
-        font-size: 16px;
+        font-size: 1.5rem;
         padding: 10px 20px;
     }
   
@@ -256,22 +256,23 @@ h1 {
     h1 {
         font-size: 1.8em;
     }
+
   
     #wordDisplay {
         font-size: 28px;
     }
   
     .btn {
-        font-size: 14px;
+        font-size: 1.2rem;
         padding: 8px 16px;
     }
   
     #wordInput {
-        font-size: 16px;
+        font-size: 3rem;
     }
   
     #score {
-        font-size: 1.2em;
+        font-size: 1.5rem;
     }
 }
 
@@ -450,5 +451,24 @@ footer a {
 
 footer a:hover {
     text-decoration: underline; /* Gạch chân khi hover */
+}
+
+@media screen and (max-width: 768px) {
+    .answer-grid {
+        flex-direction: column; /* Đổi chiều từ hàng ngang sang hàng dọc */
+        align-items: center; /* Căn giữa các phần tử */
+        justify-content: center; /* Căn giữa theo chiều dọc */
+        gap: 15px; /* Giãn cách giữa các câu trả lời */
+        width: 100%; /* Đặt chiều rộng của answer-grid 100% để căn giữa */
+    }
+
+    .col {
+        width: 100%; /* Đặt chiều rộng của cột 100% để các nút trả lời chiếm toàn bộ chiều rộng */
+    }
+
+    .answer-btn {
+        width: 100%; /* Đặt chiều rộng của các nút trả lời 100% để chiếm toàn bộ chiều rộng của cột */
+        max-width: none; /* Xóa giới hạn chiều rộng tối đa */
+    }
 }
 
