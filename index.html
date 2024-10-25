@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vocab Challenge</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <div id="loading" class="loader" style="display: none"></div>
+      <h1 id="title">Vocab Challenge</h1>
+      <div class="goal-message" id="goal-message">
+        <h2>Objective of the game:</h2>
+        <p>
+          This game helps you learn English vocabulary in a fun and interesting
+          way. You will be challenged with vocabulary and questions, helping to
+          improve your ability to remember and use vocabulary in daily
+          communication.
+        </p>
+      </div>
+      <div id="all" style="display: none">
+        <div id="statusGifContainer">
+          <img id="statusGif" src="./assets/start.gif" alt="Game Status" />
+        </div>
+        <div id="wordDisplay" class="question">*****</div>
+        <div class="answer-grid">
+          <div class="col">
+            <button id="answerA" class="answer-btn" data-answer="A">A:</button>
+            <button id="answerC" class="answer-btn" data-answer="C">C:</button>
+          </div>
+          <div class="col">
+            <button id="answerB" class="answer-btn" data-answer="B">B:</button>
+            <button id="answerD" class="answer-btn" data-answer="D">D:</button>
+          </div>
+        </div>
+        <div class="buttons">
+          <button class="btn" onclick="toggleLanguage()" id="btn">
+            Đảo ngược ngôn ngữ
+          </button>
+          <button id="playAgainBtn" style="display: none" onclick="resetGame()">
+            Chơi lại
+          </button>
+        </div>
+        <div id="score">Điểm: 0</div>
+      </div>
+      <button id="startBtn" class="btn" onclick="startGame()">Bắt đầu</button>
+      <!-- Nút Bắt đầu -->
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

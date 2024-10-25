@@ -1,0 +1,428 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+body {
+    font-family: 'Poppins', sans-serif;
+    background-image: url('./assets/starry.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    animation: fadeInBackground 2s ease-in-out forwards;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    overflow: hidden;
+}
+  
+/* Hiệu ứng background dần xuất hiện */
+@keyframes fadeInBackground {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+  
+.game-container {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: popIn 1.2s ease-out forwards;
+    backdrop-filter: blur(10px);
+    padding: 50px;
+    position: relative;
+    
+}
+  
+@keyframes popIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+  
+h1 {
+    color: #e74c3c;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    animation: bounceIn 1s ease-out;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+  
+@keyframes bounceIn {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    60% {
+        transform: translateY(10px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+  
+#wordDisplay {
+    font-size: 48px;
+    margin: 20px 0;
+    letter-spacing: 3px;
+    color: #3498db;
+    animation: wordBounce 1.5s ease-in-out infinite;
+    text-shadow: 2px 2px 10px rgba(52, 152, 219, 0.5);
+}
+  
+@keyframes wordBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+  
+#wordInput {
+    padding: 15px;
+    width: 90%;
+    margin: 20px auto;
+    border: 2px solid #3498db;
+    border-radius: 15px;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+}
+  
+#wordInput:focus {
+    border-color: #8e44ad;
+    box-shadow: 0 0 15px rgba(142, 68, 173, 0.5);
+}
+  
+.buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+  
+.btn {
+    padding: 15px 30px;
+    background-color: #27ae60;
+    border: none;
+    color: white;
+    font-size: 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+  
+.btn:hover {
+    background-color: #2ecc71;
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(46, 204, 113, 0.5);
+}
+
+#playAgainBtn  {
+    padding: 15px 30px;
+    background-color: #27ae60;
+    border: none;
+    color: white;
+    font-size: 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+#playAgainBtn:hover {
+    background-color: #2ecc71;
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(46, 204, 113, 0.5);
+}
+  
+#score {
+    margin-top: 30px;
+    font-size: 1.8em;
+    color: #8e44ad;
+    animation: fadeInScore 1s ease-out;
+    font-weight: bold;
+}
+  
+@keyframes fadeInScore {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+  
+.special-effect {
+    animation: shake 0.5s;
+}
+  
+@keyframes shake {
+    0%, 100% { transform: translate(1px, 1px) rotate(0deg); }
+    10%, 90% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20%, 80% { transform: translate(-3px, 0px) rotate(1deg); }
+    30%, 70% { transform: translate(3px, 2px) rotate(0deg); }
+    40%, 60% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+}
+  
+/* Hiệu ứng sao rơi */
+@keyframes fallingStars {
+    0% { top: -50px; opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 600px; opacity: 0; }
+}
+  
+.star {
+    position: absolute;
+    background-color: white;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    top: -50px;
+    left: 50%;
+    animation: fallingStars 5s linear infinite;
+    opacity: 0.5;
+}
+  
+.star:nth-child(2) {
+    left: 20%;
+    animation-duration: 6s;
+}
+  
+.star:nth-child(3) {
+    left: 80%;
+    animation-duration: 7s;
+}
+  
+/* Responsive cho màn hình nhỏ hơn */
+@media screen and (max-width: 768px) {
+    .game-container {
+        width: 90%;
+        height: auto;
+        padding: 15px;
+    }
+  
+    h1 {
+        font-size: 2em;
+    }
+  
+    #wordDisplay {
+        font-size: 36px;
+    }
+  
+    .btn {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+  
+    #wordInput {
+        font-size: 18px;
+        padding: 10px;
+    }
+  
+    #score {
+        font-size: 1.5em;
+    }
+}
+  
+@media screen and (max-width: 480px) {
+    .game-container {
+        width: 100%;
+        padding: 10px;
+    }
+  
+    h1 {
+        font-size: 1.8em;
+    }
+  
+    #wordDisplay {
+        font-size: 28px;
+    }
+  
+    .btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+  
+    #wordInput {
+        font-size: 16px;
+    }
+  
+    #score {
+        font-size: 1.2em;
+    }
+}
+
+.game-container {
+    text-align: center;
+}
+  
+.answer-grid {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 30px;
+}
+  
+.col {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+  
+.answer-btn {
+    padding: 15px 30px;
+    background-color: #3498db; /* Màu nền mặc định */
+    border: none;
+    color: white;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    max-width: 300px;
+    text-align: left;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Hiệu ứng chuyển màu nền và biến đổi */
+}
+
+.answer-btn.selected {
+    background-color: #e67e22 !important; /* Màu cam cho lựa chọn của người dùng */
+}
+
+.answer-btn.correct {
+    background-color: #27ae60 !important; /* Màu xanh đúng */
+}
+
+.answer-btn.wrong {
+    background-color: #e74c3c !important; /* Màu đỏ sai */
+}
+
+.answer-btn:hover {
+    transform: scale(1.05);
+}
+
+  
+#wordDisplay {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+  
+.special-effect {
+    animation: blink 0.5s ease-in-out;
+}
+  
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.question {
+    margin-bottom: 20px;
+    padding: 15px; /* Tăng độ dày padding */
+    border: 2px solid #3498db; /* Đường viền màu xanh */
+    border-radius: 10px; /* Bo góc */
+    background-color: rgba(255, 255, 255, 0.9); /* Nền trắng trong suốt */
+    font-size: 24px; /* Kích thước chữ */
+    color: #2c3e50; /* Màu chữ */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Hiệu ứng chuyển động */
+}
+
+
+/* Hover effect */
+.question:hover {
+    background-color: rgba(255, 255, 255, 1); /* Đổi màu nền khi hover */
+    transform: scale(1.02); /* Phóng to nhẹ */
+}
+
+#statusGifContainer{
+    width: 100%; /* Chiếm 100% chiều rộng */ 
+}
+
+#statusGif {
+    position: relative;
+    text-align: center; /* Căn giữa hình ảnh và tiêu đề */
+    margin: 0 auto; /* Để căn giữa toàn bộ phần tử */
+    width: 100%; /* Chiếm 100% chiều rộng */
+  }
+  
+  #statusGif {
+    max-width: 70%; /* Giới hạn chiều rộng tối đa của hình ảnh */
+    height: 10%; /* Đảm bảo chiều cao tự động */
+  }
+  
+  #gifContainer {
+    opacity: 0; /* Bắt đầu với độ mờ 0 */
+    transition: opacity 0.5s ease; /* Hiệu ứng chuyển đổi độ mờ */
+  }
+  
+  #gifContainer.show {
+    opacity: 1; /* Hiện GIF */
+  }
+  
+
+.loader {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px; /* Size of the spinner */
+    height: 50px; /* Size of the spinner */
+    animation: spin 1s linear infinite; /* Animation */
+    position: absolute; /* Positioning for centering */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    margin: -25px 0 0 -25px; /* Offset to truly center the loader */
+    text-align: center; 
+    margin-bottom: 30px;
+}
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .goal-message {
+    text-align: center; /* Căn giữa nội dung văn bản */
+    margin-bottom: 30px; /* Khoảng cách giữa bảng thông báo và các phần khác */
+    padding: 20px; /* Thêm padding cho bảng thông báo */
+    background-color: rgba(255, 255, 255, 0.8); /* Màu nền với độ trong suốt */
+    border-radius: 10px; /* Bo góc cho bảng thông báo */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng cho bảng thông báo */
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    max-width: 400px; /* Giới hạn chiều rộng tối đa */
+    margin-left: auto; /* Căn giữa bằng cách tự động tạo khoảng cách bên trái */
+    margin-right: auto; /* Căn giữa bằng cách tự động tạo khoảng cách bên phải */
+    color: #000;
+}
+
+
+.goal-message h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.goal-message p {
+    font-size: 1em;
+    line-height: 1.5;
+}
