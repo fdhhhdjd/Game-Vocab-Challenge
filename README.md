@@ -7,7 +7,7 @@
 <a href = "mailto:nguyentientai10@gmail.com"><img src="https://img.icons8.com/fluency/48/000000/send-mass-email.png" alt="License"></a>
 </p>
 
-#  Game Vocab Challenge
+# Game Vocab Challenge
 
 ![alt text](assets/image.png)
 
