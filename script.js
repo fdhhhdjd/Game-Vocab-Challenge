@@ -76,6 +76,12 @@ function toggleLoading(show) {
   document.getElementById("loading").style.display = show ? "block" : "none";
   document.getElementById("all").style.display = show ? "none" : "block";
   document.getElementById("title").style.display = show ? "none" : "block";
+  const gameContainer = document.querySelector(".game-container");
+  if (show) {
+    gameContainer.style.display = "none";
+  } else {
+    gameContainer.style.display = "block";
+  }
 }
 
 // Function to select a random word

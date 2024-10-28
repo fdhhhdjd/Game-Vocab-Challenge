@@ -4,11 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vocab Challenge</title>
+    <link rel="icon" href="assets/logo/logo.png" type="image/x-icon" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div id="loading" class="loader" style="display: none"></div>
     <div class="game-container">
-      <div id="loading" class="loader" style="display: none"></div>
       <h1 id="title">Vocab Challenge</h1>
       <div class="goal-message" id="goal-message">
         <h2>Objective of the game:</h2>
@@ -28,10 +29,10 @@
         <div class="answer-grid">
           <div class="col">
             <button id="answerA" class="answer-btn" data-answer="A">A:</button>
-            <button id="answerC" class="answer-btn" data-answer="C">C:</button>
+            <button id="answerB" class="answer-btn" data-answer="B">B:</button>
           </div>
           <div class="col">
-            <button id="answerB" class="answer-btn" data-answer="B">B:</button>
+            <button id="answerC" class="answer-btn" data-answer="C">C:</button>
             <button id="answerD" class="answer-btn" data-answer="D">D:</button>
           </div>
         </div>
