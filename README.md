@@ -7,7 +7,7 @@
 <a href = "mailto:nguyentientai10@gmail.com"><img src="https://img.icons8.com/fluency/48/000000/send-mass-email.png" alt="License"></a>
 </p>
 
-#  Game Vocab Challenge
+# Game Vocab Challenge
 
 ![alt text](assets/image.png)
 
@@ -34,6 +34,6 @@
 
 ## Chi Nhánh: NGAN HANG TMCP AN BINH (ABBANK).
 
-## SUPORT CONTACT: [https://profile-forme.cf](https://profile-forme.cf)
+## SUPORT CONTACT: [https://profile-forme.com](https://profile-forme.com)
 
 ## Thank You <3.
