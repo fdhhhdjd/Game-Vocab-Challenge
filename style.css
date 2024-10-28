@@ -98,21 +98,6 @@ h1 {
     }
 }
   
-#wordInput {
-    padding: 15px;
-    width: 90%;
-    margin: 20px auto;
-    border: 2px solid #3498db;
-    border-radius: 15px;
-    font-size: 20px;
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.9);
-}
-  
-#wordInput:focus {
-    border-color: #8e44ad;
-    box-shadow: 0 0 15px rgba(142, 68, 173, 0.5);
-}
   
 .buttons {
     margin-top: 20px;
@@ -325,10 +310,14 @@ h1 {
     transform: scale(1.05);
 }
 
+.answer-btn:not(:hover) {
+    transform: scale(1); /* Trả lại kích thước ban đầu */
+}
+
 .answer-btn:disabled {
     background-color: #EBEBE4;
     cursor: not-allowed;
-  }
+}
 
   
 #wordDisplay {
@@ -469,6 +458,12 @@ footer a:hover {
     .answer-btn {
         width: 100%; /* Đặt chiều rộng của các nút trả lời 100% để chiếm toàn bộ chiều rộng của cột */
         max-width: none; /* Xóa giới hạn chiều rộng tối đa */
+    }
+}
+
+@media (hover: none) {
+    .answer-btn {
+        transform: none !important; /* Bỏ hiệu ứng hover */
     }
 }
 

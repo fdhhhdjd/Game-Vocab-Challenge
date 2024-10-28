@@ -1,59 +1,59 @@
 // Game variables
-let currentWord = {};
-let score = 0;
-let totalQuestions = 0;
-let isEnglishToVietnamese = true;
-let isAnswerSelected = false;
-let words = [];
+let currentWord = {}; // Object to store the current word
+let score = 0; // Variable to store the player’s score
+let totalQuestions = 0; // Variable to count total questions answered
+let isEnglishToVietnamese = true; // Flag to check if the translation direction is English to Vietnamese
+let isAnswerSelected = false; // Flag to check if an answer has been selected
+let words = []; // Array to store words fetched from the API
 const musicTracks = [
   "assets/lofi/lofi1.mp3",
   "assets/lofi/lofi2.mp3",
   "assets/lofi/lofi3.mp3",
   "assets/lofi/lofi4.mp3",
   "assets/lofi/lofi5.mp3",
-];
-let currentTrack = new Audio(); // Tạo đối tượng âm thanh
-let clickSound = new Audio("./assets/sound/click.mp3"); // Tạo đối tượng âm thanh click
-let clapSound = new Audio("./assets/sound/clap.mp3"); // Tạo đối tượng âm thanh clap
-let correctSound = new Audio("./assets/sound/nice.mp3"); // Tạo đối tượng âm thanh correct
-let wrongSound = new Audio("./assets/sound/wrong.mp3"); // Tạo đối tượng âm thanh wrong
+]; // Array of music tracks to be used as background music
+let currentTrack = new Audio(); // Creates an audio object for background music
+let clickSound = new Audio("./assets/sound/click.mp3"); // Audio object for click sound
+let clapSound = new Audio("./assets/sound/clap.mp3"); // Audio object for clap sound
+let correctSound = new Audio("./assets/sound/nice.mp3"); // Audio object for correct answer sound
+let wrongSound = new Audio("./assets/sound/wrong.mp3"); // Audio object for wrong answer sound
 
-const requiredScore = 10; // Biến cho điểm yêu cầu
-const requiredQuestions = 20; // Biến cho số câu hỏi yêu cầu
+const requiredScore = 10; // Score required to win the game
+const requiredQuestions = 20; // Number of questions required to finish the game
 
 // Function to start the game
 function startGame() {
-  document.getElementById("startBtn").style.display = "none"; // Ẩn nút Bắt đầu
+  document.getElementById("startBtn").style.display = "none"; // Hide start button
   document.getElementById("footer").style.display = "none";
-  document.getElementById("goal-message").style.display = "none"; // Ẩn thông tin
-  document.getElementById("all").style.display = "block"; // Hiện các phần của trò chơi
-  fetchWords(); // Tải từ từ API
-
-  playRandomMusic(); // Phát nhạc ngẫu nhiên khi bắt đầu trò chơi
+  document.getElementById("goal-message").style.display = "none"; // Hide message
+  document.getElementById("all").style.display = "block"; // Show game elements
+  fetchWords(); // Fetch words from the API
+  playRandomMusic(); // Play random background music
 }
 
-// Hàm phát nhạc ngẫu nhiên
+// Function to play random music
 function playRandomMusic() {
   const randomIndex = Math.floor(Math.random() * musicTracks.length);
-  currentTrack.src = musicTracks[randomIndex]; // Chọn bài nhạc ngẫu nhiên
-  currentTrack.loop = true; // Lặp lại nhạc nền
-  currentTrack.play(); // Phát bài nhạc
+  currentTrack.src = musicTracks[randomIndex]; // Set a random track as the source
+  currentTrack.loop = true; // Loop the background music
+  currentTrack.play(); // Start playing the track
 
-  // Khi bài nhạc kết thúc, phát bài nhạc tiếp theo (nếu game chưa kết thúc)
+  // When the track ends, play a new random track if the game isn't over
   currentTrack.onended = function () {
     if (!isGameEnded()) {
-      playRandomMusic(); // Phát bài nhạc ngẫu nhiên tiếp theo
+      playRandomMusic(); // Play a new random track
     }
   };
 }
 
+// Check if the game has ended
 function isGameEnded() {
-  return totalQuestions >= requiredQuestions || score >= requiredScore; // Thay đổi logic này tùy theo yêu cầu của bạn
+  return totalQuestions >= requiredQuestions || score >= requiredScore; // Returns true if game-ending conditions are met
 }
 
-// Function to fetch words from API
+// Function to fetch words from an API
 async function fetchWords() {
-  toggleLoading(true);
+  toggleLoading(true); // Show loading indicator
   try {
     const response = await fetch(
       "https://script.google.com/macros/s/AKfycbyot-ZqrUYe7ASyHACQsQw68-Z6ZoCAqq9k7XbH3d00ZufXAKphei4GkWUrF1WhaOcs/exec"
@@ -62,29 +62,25 @@ async function fetchWords() {
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
-    words = data; // Gán dữ liệu từ API cho words
-    selectRandomWord(); // Bắt đầu trò chơi sau khi dữ liệu được tải
+    words = data; // Assign fetched data to words array
+    selectRandomWord(); // Start the game with the first word
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
   } finally {
-    toggleLoading(false); // Ẩn biểu tượng loading
+    toggleLoading(false); // Hide loading indicator
   }
 }
 
-// Function to show or hide the loading indicator
+// Show or hide the loading indicator
 function toggleLoading(show) {
   document.getElementById("loading").style.display = show ? "block" : "none";
   document.getElementById("all").style.display = show ? "none" : "block";
   document.getElementById("title").style.display = show ? "none" : "block";
   const gameContainer = document.querySelector(".game-container");
-  if (show) {
-    gameContainer.style.display = "none";
-  } else {
-    gameContainer.style.display = "block";
-  }
+  gameContainer.style.display = show ? "none" : "block";
 }
 
-// Function to select a random word
+// Function to select a random word from the list
 function selectRandomWord() {
   currentWord = words[Math.floor(Math.random() * words.length)];
   updateWordDisplay();
@@ -92,14 +88,14 @@ function selectRandomWord() {
   isAnswerSelected = false;
 }
 
-// Function to update the displayed word
+// Function to update the displayed word based on the current language mode
 function updateWordDisplay() {
   document.getElementById("wordDisplay").textContent = isEnglishToVietnamese
     ? currentWord.en
     : currentWord.vi;
 }
 
-// Function to generate answer buttons with random options
+// Generate answer buttons with random options
 function generateAnswerButtons() {
   const answerButtons = ["A", "B", "C", "D"];
   let answerOptions = [...words].sort(() => Math.random() - 0.5).slice(0, 4);
@@ -117,44 +113,35 @@ function generateAnswerButtons() {
   });
 }
 
-// Function to handle answer selection
-// Function to handle answer selection
-// Function to handle answer selection
-// Function to handle answer selection
+// Handle answer selection
 function handleAnswer(selectedAnswer, userButton) {
   if (isAnswerSelected) return;
 
-  clickSound.play(); // Phát âm thanh click
-
+  clickSound.play(); // Play click sound
   isAnswerSelected = true;
 
   const correctAnswer = isEnglishToVietnamese ? currentWord.vi : currentWord.en;
   const buttons = document.querySelectorAll(".answer-btn");
   userButton.classList.add("selected");
 
-  // Vô hiệu hóa tất cả các nút đáp án
+  // Disable all answer buttons
   buttons.forEach((button) => {
     if (button !== userButton) {
-      button.disabled = true; // Vô hiệu hóa nút
-      button.classList.add("disabled"); // Thêm lớp disabled để làm sẫm màu
+      button.disabled = true;
+      button.classList.add("disabled");
     }
   });
 
   setTimeout(() => {
-    // Check answer correctness
     if (selectedAnswer[isEnglishToVietnamese ? "vi" : "en"] === correctAnswer) {
       userButton.classList.add("correct");
       score++;
       totalQuestions++;
       updateScoreDisplay();
-      correctSound.play(); // Phát âm thanh đúng
-
-      setTimeout(() => {
-        userButton.classList.remove("correct", "selected");
-      }, 2000);
+      correctSound.play(); // Play correct answer sound
     } else {
       userButton.classList.add("wrong");
-      wrongSound.play(); // Phát âm thanh sai
+      wrongSound.play(); // Play incorrect answer sound
       buttons.forEach((button) => {
         if (button.textContent.includes(correctAnswer)) {
           button.classList.add("correct");
@@ -162,26 +149,22 @@ function handleAnswer(selectedAnswer, userButton) {
       });
     }
 
-    // Khôi phục trạng thái của các nút sau 2 giây
     setTimeout(() => {
       buttons.forEach((button) => {
-        button.disabled = false; // Bật lại nút
-        button.classList.remove("disabled"); // Bỏ lớp disabled để phục hồi màu sắc
-        button.classList.remove("wrong"); // Bỏ lớp wrong nếu có
-        button.classList.remove("correct"); // Bỏ lớp correct nếu có
-        button.classList.remove("selected"); // Bỏ lớp selected nếu có
+        button.disabled = false;
+        button.classList.remove("disabled", "wrong", "correct", "selected");
       });
     }, 2000);
 
     if (score >= requiredScore) {
-      document.getElementById("statusGif").src = "./assets/true.gif"; // Hiển thị true.gif
+      document.getElementById("statusGif").src = "./assets/true.gif";
       document.getElementById("statusGifContainer").classList.add("show");
       setTimeout(() => {
-        document.getElementById("statusGifContainer").classList.remove("show"); // Ẩn hình ảnh sau một khoảng thời gian
+        document.getElementById("statusGifContainer").classList.remove("show");
       }, 2000);
     }
 
-    if (score >= requiredQuestions) {
+    if (totalQuestions >= requiredQuestions) {
       endGame();
     } else {
       setTimeout(selectRandomWord, 3000);
@@ -189,30 +172,30 @@ function handleAnswer(selectedAnswer, userButton) {
   }, 3000);
 }
 
-// Function to toggle language mode
+// Toggle between English-Vietnamese mode
 function toggleLanguage() {
   isEnglishToVietnamese = !isEnglishToVietnamese;
   updateWordDisplay();
   generateAnswerButtons();
 }
 
-// Function to update score display
+// Update score display
 function updateScoreDisplay() {
-  document.getElementById("score").textContent = `Điểm: ${score}`;
+  document.getElementById("score").textContent = `Score: ${score}`;
 }
 
 // Function to end the game
 function endGame() {
-  currentTrack.pause(); // Dừng nhạc
-  currentTrack.currentTime = 0; // Đặt lại thời gian hiện tại về 0
-  clapSound.play(); // Phát âm thanh vỗ tay
+  currentTrack.pause();
+  currentTrack.currentTime = 0;
+  clapSound.play();
   displayGameElements(false);
   document.getElementById("statusGif").src = "./assets/end.gif";
   document.getElementById("statusGifContainer").classList.add("show");
   document.getElementById("playAgainBtn").style.display = "block";
 }
 
-// Function to display or hide game elements
+// Show or hide game elements
 function displayGameElements(show) {
   document.getElementById("wordDisplay").style.display = show
     ? "block"
@@ -223,19 +206,18 @@ function displayGameElements(show) {
   document.getElementById("btn").style.display = show ? "inline-block" : "none";
 }
 
-// Function to reset the game
+// Reset the game to initial state
 function resetGame() {
   score = 0;
   totalQuestions = 0;
   isAnswerSelected = false;
   isEnglishToVietnamese = true;
   updateScoreDisplay();
-
   document.getElementById("statusGif").src = "./assets/start.gif";
   document.getElementById("statusGifContainer").classList.remove("show");
   document.getElementById("playAgainBtn").style.display = "none";
 
   displayGameElements(true);
   selectRandomWord();
-  playRandomMusic(); // Gọi hàm phát nhạc
+  playRandomMusic();
 }
